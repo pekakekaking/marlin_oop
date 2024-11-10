@@ -7,15 +7,7 @@
     <link rel="stylesheet" href="https://happyhaha.github.io/css/dist/style.min.css">
 </head>
 <body>
-<?php $id=$_GET['id'];
-$name=$items[0][0];
-$categoryCurrent=$items[0][1];
-$categoryCurrentId=$items[0][2];
-$fetchCategories=[];
-for ($i=1;$i<count($items);$i++)
-{
-    $fetchCategories[]=$items[$i];
-}
+<?php include __DIR__."/../resources/SelectcategoryResource.php";
 ?>
 <h1 class="max-w-full mb-4 mt-5 text-3xl font-extrabold tracking-tight leading-none md:text-5xl dark:text-white text-center">
     Изменить категорию</h1>

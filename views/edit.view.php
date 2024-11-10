@@ -8,8 +8,8 @@
 </head>
 <body>
 <?php
-$name=$items[0][1];
-$content=$items[0][2]?>
+include __DIR__."/../resources/EditResource.php";
+?>
 <h1 class="max-w-full mb-4 mt-5 text-3xl font-extrabold tracking-tight leading-none md:text-5xl dark:text-white text-center">
     Редактировать статью</h1>
 

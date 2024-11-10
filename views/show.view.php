@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="https://happyhaha.github.io/css/dist/style.min.css">
 </head>
 <body>
-<?php //require_once 'back_show.php';
-//require_once "back_publish.php";?>
+<?php include __DIR__."/../resources/ShowResource.php"?>
 <h1 class="max-w-full mb-4 mt-5 text-3xl font-extrabold tracking-tight leading-none md:text-5xl dark:text-white text-center">
     Просмотр статьи</h1>
 
@@ -76,15 +75,6 @@
 
                 Развернуть меню
             </a>
-            <?php
-            $postId = $items[0][0];
-            $name = $items[0][1];
-            $content = $items[0][2];
-            $category_id = $items[0][3];
-            $look = $items[0][4];
-            $is_published = $items[0][5];
-            $image = $items[0][6];
-            $category_name = $items[0][8];?>
             <?php if ($is_published != '1'): ?>
                 <a href="reveal_post.php?id=<?php echo $_GET['id'] ?>"
                    class="<?php echo isset($_GET['hide']) && $_GET['hide'] == '1' ? "hidden" : "" ?>  inline-flex items-center text-white bg-green-700 hover:bg-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-0 text-center me-2">

@@ -4,91 +4,94 @@ include 'connection.php';
 
 class PostModel
 {
-    public function selectAllWithCategories($pdo)
+
+    private $pdo;
+
+    public function __construct($pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
+    public function selectAllWithCategories()
     {
         $selectAll = "SELECT * FROM posts LEFT JOIN categories ON categories.id=posts.category_id;";
-        $statement = $pdo->prepare($selectAll);
+        $statement = $this->pdo->prepare($selectAll);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_NUM);
     }
-    public function selectPostWithCategories($pdo)
+
+    public function selectPostWithCategories($id)
     {
-        $id=$_GET['id'];
         $query = "SELECT posts.name, categories.name, categories.id FROM posts LEFT JOIN categories ON categories.id=posts.category_id WHERE posts.id='$id' ;";
-        $statement=$pdo->prepare($query);
+        $statement = $this->pdo->prepare($query);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_NUM);
     }
-    public function selectAllCategories($pdo)
+
+    public function selectAllCategories()
     {
 
         $selectAll = "SELECT id, name FROM categories";
-        $statement = $pdo->prepare($selectAll);
+        $statement = $this->pdo->prepare($selectAll);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_NUM);
     }
-    public function updateCategoryInPost($pdo)
+
+    public function updateCategoryInPost($category_id,$post_id)
     {
-        $category_id=$_POST['category'];
-        $post_id=$_GET['id'];
-        $updateCategoryQuery="UPDATE posts SET category_id='$category_id' WHERE id='$post_id'";
-        $statement=$pdo->prepare($updateCategoryQuery);
+        $updateCategoryQuery = "UPDATE posts SET category_id='$category_id' WHERE id='$post_id'";
+        $statement = $this->pdo->prepare($updateCategoryQuery);
         $statement->execute();
     }
-    public function storePost($pdo)
+
+    public function storePost($name,$content)
     {
-        $name=$_POST['name'];
-        $content=$_POST['content'];
-        $storePost="INSERT INTO posts (name,content) VALUES ('$name','$content')";
-        $statement=$pdo->prepare($storePost);
+        $storePost = "INSERT INTO posts (name,content) VALUES ('$name','$content')";
+        $statement = $this->pdo->prepare($storePost);
         $statement->execute();
     }
-    public function showPost($pdo)
+
+    public function showPost($id)
     {
-        $id = $_GET['id'];
         $showPost = "SELECT * FROM posts LEFT JOIN categories ON categories.id=posts.category_id WHERE posts.id='$id';";
         $showPost .= "UPDATE posts SET look=look+1 WHERE posts.id='$id';";
-        $statement=$pdo->prepare($showPost);
+        $statement = $this->pdo->prepare($showPost);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_NUM);
     }
-    public function updatePost($pdo)
-    {
-        $name = $_POST['name'];
-        $content = $_POST['content'];
-        $id = $_GET['id'];
-        $updatePost = "UPDATE posts SET name='$name', content='$content' WHERE id='$id'";
-        $statement=$pdo->prepare($updatePost);
-        $statement->execute();
-    }
-    public function deletePost($pdo)
-    {
-        $id=$_GET['id'];
-        $deletePost="DELETE FROM posts WHERE id='$id'";
-        $statement=$pdo->prepare($deletePost);
-        $statement->execute();
-    }
-    public function showImage($pdo)
-    {
-        $id = $_GET['id'];
-        $showQuery = "SELECT name, image FROM posts WHERE posts.id='$id';";
-        $statement=$pdo->prepare($showQuery);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_NUM);
-    }
-    public function updateImage($pdo)
-    {
-        $img = $_FILES['image'];
-        $id = $_GET['id'];
 
+    public function updatePost($name,$content,$id)
+    {
+        $updatePost = "UPDATE posts SET name='$name', content='$content' WHERE id='$id'";
+        $statement = $this->pdo->prepare($updatePost);
+        $statement->execute();
+    }
+
+    public function deletePost($id)
+    {
+        $deletePost = "DELETE FROM posts WHERE id='$id'";
+        $statement = $this->pdo->prepare($deletePost);
+        $statement->execute();
+    }
+
+    public function showImage($id)
+    {
+        $showQuery = "SELECT name, image FROM posts WHERE posts.id='$id';";
+        $statement = $this->pdo->prepare($showQuery);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_NUM);
+    }
+
+    public function updateImage($img,$id)
+    {
         $allowedFiletypes = ['image/jpeg', 'image/png', 'image/jpg'];
         if (!in_array($img["type"], $allowedFiletypes)) {
             print_r('Можно загружать файлы только в формате: jpg, png');
             exit;
         }
 
-        $fileName=$img['name'];
-        $target_dir = __DIR__.'/../uploads/';
+        $fileName = $img['name'];
+        $target_dir = __DIR__ . '/../uploads/';
         $target_file = $target_dir . basename($fileName);
         if (!move_uploaded_file($img['tmp_name'], $target_file)) {
             print_r('Ошибка при перемещении файла!');
@@ -96,23 +99,25 @@ class PostModel
         }
 
         $query = "UPDATE posts SET image='$fileName' WHERE id='$id'";
-        $statement = $pdo->prepare($query);
+        $statement = $this->pdo->prepare($query);
         $statement->execute();
 
     }
-    public function hidePost($pdo)
+
+    public function hidePost($id)
     {
-        $id = $_GET['id'];
         $hideQuery = "UPDATE posts SET is_published='0' WHERE id='$id'";
-        $statement=$pdo->prepare($hideQuery);
+        $statement = $this->pdo->prepare($hideQuery);
         $statement->execute();
     }
-    public function revealPost($pdo)
+
+    public function revealPost($id)
     {
-        $id = $_GET['id'];
-        $revealQuery="UPDATE posts SET is_published='1' WHERE id='$id'";
-        $statement=$pdo->prepare($revealQuery);
+        $revealQuery = "UPDATE posts SET is_published='1' WHERE id='$id'";
+        $statement = $this->pdo->prepare($revealQuery);
         $statement->execute();
     }
 }
+
+
 

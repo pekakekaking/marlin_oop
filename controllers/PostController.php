@@ -5,8 +5,8 @@ include __DIR__ . "/../database/PostModel.php";
 
 function index($pdo)
 {
-    $model = new PostModel();
-    return $model->selectAllWithCategories($pdo);
+    $model = new PostModel($pdo);
+    return $model->selectAllWithCategories();
 }
 
 function create()
@@ -16,47 +16,47 @@ function create()
 
 function store($pdo)
 {
-    $model = new PostModel();
-    $model->storePost($pdo);
+    $model = new PostModel($pdo);
+    $model->storePost();
     header('Location: index');
     exit;
 }
 
 function show($pdo)
 {
-    $model = new PostModel();
-    return $model->showPost($pdo);
+    $model = new PostModel($pdo);
+    return $model->showPost();
 }
 
 function update($pdo)
 {
-    $model = new PostModel();
-    $model->updatePost($pdo);
+    $model = new PostModel($pdo);
+    $model->updatePost();
     header('Location: index');
     exit;
 }
 
 function destroy($pdo)
 {
-    $model = new PostModel();
-    $model->deletePost($pdo);
+    $model = new PostModel($pdo);
+    $model->deletePost();
     header('Location: index');
     exit;
 }
 
 function selectCategory($pdo)
 {
-    $model = new PostModel();
-    $array = $model->selectPostWithCategories($pdo);
-    $categories = new PostModel();
-    $arrayCat = $categories->selectAllCategories($pdo);
+    $model = new PostModel($pdo);
+    $array = $model->selectPostWithCategories();
+    $categories = new PostModel($pdo);
+    $arrayCat = $categories->selectAllCategories();
     return array_merge($array, $arrayCat);
 }
 
 function updateCategoryInPost($pdo)
 {
-    $model = new PostModel();
-    $model->updateCategoryInPost($pdo);
+    $model = new PostModel($pdo);
+    $model->updateCategoryInPost();
     $post_id=$_GET['id'];
     header("location:category_select.php?id=$post_id");
     exit;
@@ -64,21 +64,21 @@ function updateCategoryInPost($pdo)
 
 function showImage($pdo)
 {
-    $model = new PostModel();
-    return $model->showImage($pdo);
+    $model = new PostModel($pdo);
+    return $model->showImage();
 }
 function updateImage($pdo)
 {
-    $model = new PostModel();
-    $model->updateImage($pdo);
+    $model = new PostModel($pdo);
+    $model->updateImage();
     $id = $_GET['id'];
     header("Location:image.php?id=$id");
     exit;
 }
 function hidePost($pdo)
 {
-    $model = new PostModel();
-    $model->hidePost($pdo);
+    $model = new PostModel($pdo);
+    $model->hidePost();
     $id = $_GET['id'];
     header("Location:show.php?id=$id");
     exit;
@@ -86,8 +86,8 @@ function hidePost($pdo)
 
 function revealPost($pdo)
 {
-    $model = new PostModel();
-    $model->revealPost($pdo);
+    $model = new PostModel($pdo);
+    $model->revealPost();
     $id = $_GET['id'];
     header("Location:show.php?id=$id");
     exit;

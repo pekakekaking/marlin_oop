@@ -4,52 +4,57 @@ include 'connection.php';
 
 class CategoryModel
 {
-    public function selectAll($pdo)
+    private $pdo;
+    public function __construct($pdo)
+    {
+        $this->pdo = $pdo;
+    }
+    public function selectAll()
     {
         $selectAll = "SELECT id, name FROM categories;";
-        $statement = $pdo->prepare($selectAll);
+        $statement = $this->pdo->prepare($selectAll);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_NUM);
     }
 
-    public function selectPostsCount($pdo)
+    public function selectPostsCount()
     {
         $selectPostsCount = "SELECT category_id, COUNT(id) as count FROM posts GROUP BY category_id;";
-        $statement = $pdo->prepare($selectPostsCount);
+        $statement = $this->pdo->prepare($selectPostsCount);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_NUM);
 
     }
 
-    public function storeCategory($pdo)
+    public function storeCategory()
     {
         $name=$_POST['name'];
         $insertQuery="INSERT INTO categories (name) VALUES ('$name')";
-        $statement = $pdo->prepare($insertQuery);
+        $statement = $this->pdo->prepare($insertQuery);
         $statement->execute();
     }
-    public function showCategory($pdo)
+    public function showCategory()
     {
         $id = $_GET['id'];
         $showQuery = "SELECT name FROM categories WHERE id='$id' ";
-        $statement = $pdo->prepare($showQuery);
+        $statement = $this->pdo->prepare($showQuery);
         $statement->execute();
         $res= $statement->fetchAll(PDO::FETCH_NUM);
         return $res[0][0];
     }
-    public function updateCategory($pdo)
+    public function updateCategory()
     {
         $name = $_POST['name'];
         $id = $_GET['id'];
         $insertQuery = "UPDATE categories SET name='$name' WHERE id='$id'";
-        $statement = $pdo->prepare($insertQuery);
+        $statement = $this->pdo->prepare($insertQuery);
         $statement->execute();
     }
-    public function deleteCategory($pdo)
+    public function deleteCategory()
     {
         $id=$_GET['id'];
         $deleteQuery="DELETE FROM categories WHERE id='$id'";
-        $statement = $pdo->prepare($deleteQuery);
+        $statement = $this->pdo->prepare($deleteQuery);
         $statement->execute();
     }
 }

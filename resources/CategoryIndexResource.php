@@ -1,5 +1,5 @@
 <?php
 
 $categories=$items;
-$group=new CategoryModel();
-$fetchCount=$group->selectPostsCount($pdo);
+$group=new CategoryModel($pdo);
+$fetchCount=$group->selectPostsCount();

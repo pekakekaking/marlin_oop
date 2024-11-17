@@ -16,7 +16,7 @@ class Connection
     }
 }
 
-$pdo=Connection::connect($configDatabase);
+$pdo = Connection::connect($configDatabase);
 
 
 

@@ -5,10 +5,12 @@ include 'connection.php';
 class CategoryModel
 {
     private $pdo;
+
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
     }
+
     public function selectAll()
     {
         $selectAll = "SELECT id, name FROM categories;";
@@ -26,34 +28,32 @@ class CategoryModel
 
     }
 
-    public function storeCategory()
+    public function storeCategory($name)
     {
-        $name=$_POST['name'];
-        $insertQuery="INSERT INTO categories (name) VALUES ('$name')";
+        $insertQuery = "INSERT INTO categories (name) VALUES ('$name')";
         $statement = $this->pdo->prepare($insertQuery);
         $statement->execute();
     }
-    public function showCategory()
+
+    public function showCategory($id)
     {
-        $id = $_GET['id'];
         $showQuery = "SELECT name FROM categories WHERE id='$id' ";
         $statement = $this->pdo->prepare($showQuery);
         $statement->execute();
-        $res= $statement->fetchAll(PDO::FETCH_NUM);
+        $res = $statement->fetchAll(PDO::FETCH_NUM);
         return $res[0][0];
     }
-    public function updateCategory()
+
+    public function updateCategory($name,$id)
     {
-        $name = $_POST['name'];
-        $id = $_GET['id'];
         $insertQuery = "UPDATE categories SET name='$name' WHERE id='$id'";
         $statement = $this->pdo->prepare($insertQuery);
         $statement->execute();
     }
-    public function deleteCategory()
+
+    public function deleteCategory($id)
     {
-        $id=$_GET['id'];
-        $deleteQuery="DELETE FROM categories WHERE id='$id'";
+        $deleteQuery = "DELETE FROM categories WHERE id='$id'";
         $statement = $this->pdo->prepare($deleteQuery);
         $statement->execute();
     }

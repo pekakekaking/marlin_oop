@@ -2,22 +2,22 @@
 
 include 'connection.php';
 
-class CategoryModel
+class CategoryModel extends Model
 {
-    private $pdo;
+//    private $pdo;
+//
+//    public function __construct($pdo)
+//    {
+//        $this->pdo = $pdo;
+//    }
 
-    public function __construct($pdo)
-    {
-        $this->pdo = $pdo;
-    }
-
-    public function selectAll()
-    {
-        $selectAll = "SELECT id, name FROM categories;";
-        $statement = $this->pdo->prepare($selectAll);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_NUM);
-    }
+//    public function selectAll()
+//    {
+//        $selectAll = "SELECT id, name FROM categories;";
+//        $statement = $this->pdo->prepare($selectAll);
+//        $statement->execute();
+//        return $statement->fetchAll(PDO::FETCH_NUM);
+//    }
 
     public function selectPostsCount()
     {
@@ -51,10 +51,10 @@ class CategoryModel
         $statement->execute();
     }
 
-    public function deleteCategory($id)
-    {
-        $deleteQuery = "DELETE FROM categories WHERE id='$id'";
-        $statement = $this->pdo->prepare($deleteQuery);
-        $statement->execute();
-    }
+//    public function deleteCategory($id)
+//    {
+//        $deleteQuery = "DELETE FROM categories WHERE id='$id'";
+//        $statement = $this->pdo->prepare($deleteQuery);
+//        $statement->execute();
+//    }
 }

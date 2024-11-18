@@ -1,6 +1,7 @@
 <?php
 
 include 'connection.php';
+include 'Model.php';
 
 class CategoryModel extends Model
 {

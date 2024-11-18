@@ -4,7 +4,7 @@ include __DIR__ . "/../database/CategoryModel.php";
 function index($pdo)
 {
 $model = new CategoryModel($pdo);
-$table='categories';
+$table="categories";
 return $model->selectAll($table);
 }
 

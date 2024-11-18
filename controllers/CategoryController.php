@@ -4,7 +4,8 @@ include __DIR__ . "/../database/CategoryModel.php";
 function index($pdo)
 {
 $model = new CategoryModel($pdo);
-return $model->selectAll();
+$table="categories";
+return $model->selectAll($table);
 }
 
 function create()
@@ -35,7 +36,8 @@ function update($pdo)
 function destroy($pdo)
 {
     $model = new CategoryModel($pdo);
-    $model->deleteCategory($_GET['id']);
+    $table='categories';
+    $model->delete($table,$_GET['id']);
     header('Location: category_index.php');
     exit;
 }
